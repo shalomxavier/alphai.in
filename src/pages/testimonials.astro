@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Testimonial from '../components/Testimonial.astro';
+import ContactRow from '../components/ContactRow.astro';
+import { testimonials } from '../data/testimonials';
+---
+
+<BaseLayout
+  title="Testimonials"
+  description="What clients say about working with ALPHAI."
+>
+  <!-- Opening — sparse statement, not a card intro -->
+  <section class="shell pt-32 md:pt-44" aria-label="Testimonials">
+    <p class="label" data-animate="fade-in">Testimonials</p>
+    <h1
+      class="text-h1 mt-8 max-w-4xl font-medium leading-tight tracking-tightest"
+      data-parallax="-6"
+    >
+      What clients say about working with ALPHAI.
+    </h1>
+  </section>
+
+  <!-- Sequential editorial entries -->
+  <section class="py-section" aria-label="Client endorsements">
+    <div class="border-b hairline">
+      {testimonials.map((t) => <Testimonial {...t} />)}
+    </div>
+  </section>
+
+  <ContactRow />
+</BaseLayout>

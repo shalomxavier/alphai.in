@@ -1,0 +1,16 @@
+---
+interface Props {
+  id?: string;
+  label?: string;
+  class?: string;
+}
+
+const { id, label, class: className } = Astro.props;
+---
+
+<section id={id} class:list={['py-section', className]}>
+  <div class="shell">
+    {label && <p class="label mb-10 md:mb-14" data-animate="fade-in">{label}</p>}
+    <slot />
+  </div>
+</section>

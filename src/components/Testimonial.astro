@@ -1,0 +1,37 @@
+---
+interface Props {
+  index: string;
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+  service?: string;
+}
+
+const { index, quote, name, role, company, service } = Astro.props;
+---
+
+<figure class="border-t hairline">
+  <div class="shell py-14 md:py-20">
+    <p class="label" data-animate="fade-in">{index}</p>
+
+    <div class="mt-8 overflow-hidden md:mt-10">
+      <blockquote
+        class="text-h2 max-w-4xl font-medium leading-tight tracking-tightest"
+        data-animate="mask-up"
+      >
+        “{quote}”
+      </blockquote>
+    </div>
+
+    <figcaption
+      class="mt-10 flex flex-col gap-1 md:mt-12"
+      data-animate="fade-up"
+      data-animate-delay="0.1"
+    >
+      <span class="text-body-lg">{name}</span>
+      <span class="label">{role} — {company}</span>
+      {service && <span class="label mt-2">{service}</span>}
+    </figcaption>
+  </div>
+</figure>

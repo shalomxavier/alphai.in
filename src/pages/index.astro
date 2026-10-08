@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceRow from '../components/ServiceRow.astro';
+import ContactRow from '../components/ContactRow.astro';
+import { services } from '../data/services';
+
+const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
+---
+
+<BaseLayout
+  title="ALPHAI"
+  description="ALPHAI — a technology & digital systems company. Digital systems, AI & growth, business operations."
+>
+  <!-- HERO — centered brand lockup -->
+  <section
+    class="relative flex min-h-svh flex-col"
+    data-hero
+    aria-label="ALPHAI — technology and digital systems"
+  >
+    <!-- corner metadata -->
+    <div class="shell flex items-start justify-between pt-24 md:pt-28">
+      <p class="label" data-hero-meta>MMXXVI</p>
+      <p class="label" data-hero-meta>ALPHAI.IN</p>
+    </div>
+
+    <!-- lockup -->
+    <div class="shell flex flex-1 flex-col items-center justify-center">
+      <p class="label mb-6 md:mb-8" data-hero-meta>
+        Technology &amp; digital systems
+      </p>
+      <h1 class="masthead" aria-label="ALPHAI" data-hero-wordmark>
+        {
+          letters.map((letter) => (
+            <span class="mask" aria-hidden="true">
+              <span data-hero-letter>{letter}</span>
+            </span>
+          ))
+        }
+      </h1>
+    </div>
+
+    <!-- connector — vertical axis down into the service index -->
+    <div class="flex flex-col items-center">
+      <a href="#services" class="label mb-6 text-paper/70 transition-colors duration-300 hover:text-paper" data-hero-meta>
+        Index ↓
+      </a>
+      <span
+        aria-hidden="true"
+        class="block h-16 w-px bg-paper/25 md:h-24"
+        data-hero-connector
+      ></span>
+    </div>
+  </section>
+
+  <!-- SERVICES — editorial index; continues the hero's central axis -->
+  <section id="services" class="pb-section" aria-label="Services">
+    <div class="flex justify-center pb-10 pt-16 md:pb-14 md:pt-20">
+      <p class="label" data-animate="fade-in">Index — 03 services</p>
+    </div>
+    <div class="border-b hairline" data-animate="stagger">
+      {services.map((service) => <ServiceRow {...service} />)}
+    </div>
+  </section>
+
+  <!-- CONTACT — quiet fourth editorial row -->
+  <ContactRow />
+</BaseLayout>

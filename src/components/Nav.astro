@@ -1,0 +1,193 @@
+---
+const links = [
+  { href: '/about', label: 'About', index: '01' },
+  { href: '/testimonials', label: 'Testimonials', index: '02' },
+  { href: '/contact', label: 'Contact', index: '03' },
+];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  path === href || path.startsWith(`${href}/`);
+---
+
+<header id="site-nav" class="fixed inset-x-0 top-0 z-40 mix-blend-difference">
+  <nav
+    class="shell flex items-center justify-between py-5"
+    aria-label="Primary"
+  >
+    <a
+      href="/"
+      class="text-base font-medium tracking-tightest text-paper"
+      aria-label="ALPHAI — home">ALPHAI</a
+    >
+
+    <ul class="hidden items-center gap-10 md:flex">
+      {
+        links.map(({ href, label, index }) => (
+          <li>
+            <a
+              href={href}
+              aria-current={isActive(href) ? 'page' : undefined}
+              class:list={[
+                'nav-link flex items-baseline gap-2 text-sm',
+                isActive(href) ? 'text-paper' : 'text-paper/70',
+              ]}
+            >
+              <span class="font-mono text-[0.6rem] text-paper/60">{index}</span>
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <button
+      id="nav-toggle"
+      class="label text-paper md:hidden"
+      aria-expanded="false"
+      aria-controls="nav-overlay"
+    >
+      Menu
+    </button>
+  </nav>
+</header>
+
+<div
+  id="nav-overlay"
+  class="pointer-events-none fixed inset-0 z-50 flex flex-col bg-ink opacity-0"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+>
+  <div class="shell flex items-center justify-between py-5">
+    <span class="text-base font-medium tracking-tightest text-paper">ALPHAI</span>
+    <button id="nav-close" class="label text-paper">Close</button>
+  </div>
+  <nav class="shell flex flex-1 flex-col justify-center" aria-label="Mobile">
+    <ul>
+      {
+        links.map(({ href, label, index }) => (
+          <li class="menu-item border-b hairline">
+            <a
+              href={href}
+              aria-current={isActive(href) ? 'page' : undefined}
+              class="flex items-baseline gap-6 py-5"
+            >
+              <span class="label">{index}</span>
+              <span class="text-h2 font-medium tracking-tightest">{label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="shell pb-10">
+    <p class="label">Technology &amp; digital systems</p>
+  </div>
+</div>
+
+<style>
+  .nav-link {
+    position: relative;
+    transition: color 0.3s var(--ease-out-expo);
+  }
+  .nav-link:hover {
+    color: var(--color-paper);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  #nav-overlay {
+    visibility: hidden;
+    transition:
+      opacity 0.4s var(--ease-out-expo),
+      visibility 0s 0.4s;
+  }
+  #nav-overlay.open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.4s var(--ease-out-expo);
+  }
+
+  .menu-item {
+    transform: translateY(28px);
+    opacity: 0;
+    transition:
+      transform 0.7s var(--ease-out-expo),
+      opacity 0.7s var(--ease-out-expo);
+  }
+  #nav-overlay.open .menu-item {
+    transform: none;
+    opacity: 1;
+  }
+  #nav-overlay.open .menu-item:nth-child(2) {
+    transition-delay: 0.07s;
+  }
+  #nav-overlay.open .menu-item:nth-child(3) {
+    transition-delay: 0.14s;
+  }
+</style>
+
+<script>
+  function setupNav() {
+    const toggle = document.getElementById('nav-toggle');
+    const overlay = document.getElementById('nav-overlay');
+    const closeBtn = document.getElementById('nav-close');
+    if (!toggle || !overlay || !closeBtn) return;
+
+    const open = () => {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      toggle.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+    };
+
+    const close = (refocus = true) => {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      toggle.setAttribute('aria-expanded', 'false');
+      if (refocus) toggle.focus();
+    };
+
+    toggle.addEventListener('click', open);
+    closeBtn.addEventListener('click', () => close());
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') {
+        // simple focus loop — aria-modal promises a trap
+        const items = overlay.querySelectorAll<HTMLElement>('a, button');
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+    document.addEventListener('astro:before-swap', () => close(false), {
+      once: true,
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupNav);
+</script>

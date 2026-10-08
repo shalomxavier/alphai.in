@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactRow from '../components/ContactRow.astro';
+import { services } from '../data/services';
+---
+
+<BaseLayout
+  title="About"
+  description="ALPHAI builds digital systems for the way businesses work now — software, AI and digital growth with less friction."
+>
+  <!-- Opening — statement, not a title -->
+  <section class="shell pt-32 md:pt-44" aria-label="Who ALPHAI is">
+    <p class="label" data-animate="fade-in">About</p>
+    <h1
+      class="text-h1 mt-8 max-w-4xl font-medium leading-tight tracking-tightest"
+      data-parallax="-6"
+    >
+      We build digital systems for the way businesses work now.
+    </h1>
+    <p
+      class="mt-10 max-w-xl text-body-lg text-muted"
+      data-animate="fade-up"
+      data-animate-delay="0.1"
+    >
+      ALPHAI combines software, AI and digital growth systems to help
+      businesses operate, grow and adapt with less friction.
+    </p>
+  </section>
+
+  <!-- Belief -->
+  <section class="shell py-section" aria-label="What we believe">
+    <p class="label" data-animate="fade-in">Belief</p>
+    <h2
+      class="text-h2 mt-8 max-w-3xl font-medium leading-tight tracking-tightest"
+      data-animate="fade-up"
+    >
+      Placeholder — technology, AI and thoughtful systems applied to real
+      business problems.
+    </h2>
+    <p
+      class="mt-10 max-w-xl text-body-lg text-muted"
+      data-animate="fade-up"
+      data-animate-delay="0.1"
+    >
+      Placeholder — one short paragraph expanding the philosophy. Final brand
+      copy to come.
+    </p>
+  </section>
+
+  <!-- What we build — concise continuation, not a second nav index -->
+  <section
+    class="pb-section"
+    aria-label="What we build"
+  >
+    <div class="shell mb-8 md:mb-10">
+      <p class="label" data-animate="fade-in">What we build</p>
+    </div>
+    <div class="border-b hairline" data-animate="stagger">
+      {
+        services.map(({ index, title, summary }) => (
+          <div class="border-t hairline">
+            <div class="shell flex flex-col gap-2 py-6 md:flex-row md:items-baseline md:justify-between md:gap-8 md:py-8">
+              <div class="flex items-baseline gap-5 md:gap-10">
+                <span class="label shrink-0">{index}</span>
+                <h3 class="text-h3 font-medium tracking-tightest">{title}</h3>
+              </div>
+              <p class="max-w-md text-muted md:text-right">{summary}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Closing — same quiet row language as the homepage -->
+  <ContactRow text="Work with ALPHAI" />
+</BaseLayout>
