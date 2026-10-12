@@ -29,7 +29,10 @@ const schema = {
       name: 'ALPHAI',
       url: siteUrl,
       email: 'hello@alphai.in',
-      description: 'A technology & digital systems company.',
+      description:
+        'Software and web application development, AI-powered automation, SEO and digital growth.',
+      logo: new URL('/alphai-logo-dark-1600.png', siteUrl).href,
+      slogan: 'Where intelligence becomes action.',
     },
     {
       '@type': 'WebSite',
@@ -49,7 +52,11 @@ const schema = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:site_name" content="ALPHAI" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -58,7 +65,7 @@ const schema = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="ALPHAI — Technology & digital systems" />
+    <meta property="og:image:alt" content="ALPHAI — Where intelligence becomes action." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />

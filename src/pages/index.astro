@@ -9,24 +9,23 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
 
 <BaseLayout
   title="ALPHAI"
-  description="ALPHAI — a technology & digital systems company. Digital systems, AI & growth, business operations."
+  description="ALPHAI — intelligent software, AI and digital growth. Web & dashboard development, AI & business automation, SEO & digital growth."
 >
   <!-- HERO — centered brand lockup -->
   <section
     class="relative flex min-h-svh flex-col"
     data-hero
-    aria-label="ALPHAI — technology and digital systems"
+    aria-label="ALPHAI — intelligent software, AI and digital growth"
   >
     <!-- corner metadata -->
-    <div class="shell flex items-start justify-between pt-24 md:pt-28">
-      <p class="label" data-hero-meta>MMXXVI</p>
+    <div class="shell flex items-start justify-center pt-24 md:pt-28">
       <p class="label" data-hero-meta>ALPHAI.IN</p>
     </div>
 
     <!-- lockup -->
     <div class="shell flex flex-1 flex-col items-center justify-center">
       <p class="label mb-6 md:mb-8" data-hero-meta>
-        Technology &amp; digital systems
+        Intelligent software · AI · Digital growth
       </p>
       <h1 class="masthead" aria-label="ALPHAI" data-hero-wordmark>
         {
@@ -37,6 +36,9 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
           ))
         }
       </h1>
+      <p class="mt-8 text-body-lg text-muted md:mt-10" data-hero-meta>
+        Where Intelligence Becomes Action.
+      </p>
     </div>
 
     <!-- connector — vertical axis down into the service index -->
@@ -63,5 +65,10 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
   </section>
 
   <!-- CONTACT — quiet fourth editorial row -->
+  <div class="shell pb-14 md:pb-20" data-animate="fade-up">
+    <p class="max-w-xl text-body-lg text-muted">
+      Have a challenge worth solving? Let&rsquo;s build the right solution.
+    </p>
+  </div>
   <ContactRow />
 </BaseLayout>
