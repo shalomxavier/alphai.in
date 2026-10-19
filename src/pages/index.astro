@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ServiceRow from '../components/ServiceRow.astro';
-import ContactRow from '../components/ContactRow.astro';
+import ServiceColumn from '../components/ServiceColumn.astro';
 import { services } from '../data/services';
 
 const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
@@ -10,24 +9,30 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
 <BaseLayout
   title="ALPHAI"
   description="ALPHAI — intelligent software, AI and digital growth. Web & dashboard development, AI & business automation, SEO & digital growth."
+  hideFooter
 >
   <!-- HERO — centered brand lockup -->
   <section
-    class="relative flex min-h-svh flex-col"
+    class="relative flex flex-1 flex-col"
     data-hero
     aria-label="ALPHAI — intelligent software, AI and digital growth"
   >
-    <!-- corner metadata -->
-    <div class="shell flex items-start justify-center pt-24 md:pt-28">
-      <p class="label" data-hero-meta>ALPHAI.IN</p>
-    </div>
-
-    <!-- lockup -->
-    <div class="shell flex flex-1 flex-col items-center justify-center">
-      <p class="label mb-6 md:mb-8" data-hero-meta>
-        Intelligent software · AI · Digital growth
-      </p>
-      <h1 class="masthead" aria-label="ALPHAI" data-hero-wordmark>
+    <div
+      class="shell flex flex-1 flex-col items-center justify-center pt-14 pb-4 text-center"
+    >
+      <img
+        src="/alphai-logo.svg"
+        alt=""
+        width="1400"
+        height="688"
+        class="h-10 w-auto"
+        data-hero-meta
+      />
+      <h1
+        class="masthead mt-5"
+        aria-label="ALPHAI"
+        data-hero-wordmark
+      >
         {
           letters.map((letter) => (
             <span class="mask" aria-hidden="true">
@@ -36,39 +41,32 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
           ))
         }
       </h1>
-      <p class="mt-8 text-body-lg text-muted md:mt-10" data-hero-meta>
+      <p class="mt-5 w-full text-body-lg" data-hero-meta>
         Where Intelligence Becomes Action.
       </p>
-    </div>
-
-    <!-- connector — vertical axis down into the service index -->
-    <div class="flex flex-col items-center">
-      <a href="#services" class="label mb-6 text-paper/70 transition-colors duration-300 hover:text-paper" data-hero-meta>
-        Index ↓
-      </a>
-      <span
-        aria-hidden="true"
-        class="block h-16 w-px bg-paper/25 md:h-24"
-        data-hero-connector
-      ></span>
+      <p class="mt-2 w-full max-w-lg text-muted" data-hero-meta>
+        Intelligent software, AI and digital growth for modern businesses.
+      </p>
     </div>
   </section>
 
-  <!-- SERVICES — editorial index; continues the hero's central axis -->
-  <section id="services" class="pb-section" aria-label="Services">
-    <div class="flex justify-center pb-10 pt-16 md:pb-14 md:pt-20">
-      <p class="label" data-animate="fade-in">Index — 03 services</p>
-    </div>
-    <div class="border-b hairline" data-animate="stagger">
-      {services.map((service) => <ServiceRow {...service} />)}
+  <!-- SERVICES — three editorial columns -->
+  <section id="services" class="pb-8" aria-label="Services">
+    <div class="shell">
+      <div
+        class="grid divide-y divide-line border-y hairline md:grid-cols-3 md:divide-x md:divide-y-0"
+        data-animate="stagger"
+      >
+        {services.map((service) => <ServiceColumn {...service} />)}
+      </div>
+      <div class="mt-6 flex justify-center">
+        <a
+          href="/contact"
+          class="inline-block bg-accent px-10 py-4 font-medium text-ink transition-transform duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5"
+        >
+          Contact Us
+        </a>
+      </div>
     </div>
   </section>
-
-  <!-- CONTACT — quiet fourth editorial row -->
-  <div class="shell pb-14 md:pb-20" data-animate="fade-up">
-    <p class="max-w-xl text-body-lg text-muted">
-      Have a challenge worth solving? Let&rsquo;s build the right solution.
-    </p>
-  </div>
-  <ContactRow />
 </BaseLayout>

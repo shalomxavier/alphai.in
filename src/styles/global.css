@@ -15,7 +15,7 @@
   --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
-  --text-masthead: clamp(4.5rem, 12vw, 11rem);
+  --text-masthead: clamp(2.5rem, min(12vw, 16svh), 11rem);
   --text-display: clamp(4rem, 12.5vw, 11rem);
   --text-h1: clamp(2.5rem, 6vw, 4.5rem);
   --text-h2: clamp(1.875rem, 4.5vw, 3.25rem);

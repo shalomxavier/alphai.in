@@ -21,21 +21,21 @@ export const services: Service[] = [
     index: '01',
     title: 'WEB & DASHBOARD DEVELOPMENT',
     summary:
-      'Custom websites, business platforms, dashboards and web applications enhanced with AI capabilities to make digital operations smarter and more efficient.',
+      'Websites, dashboards and custom business software enhanced with AI capabilities.',
     href: '/contact',
   },
   {
     index: '02',
     title: 'AI & BUSINESS AUTOMATION',
     summary:
-      'AI-powered integrations and intelligent automation that reduce manual work, streamline workflows and improve business efficiency.',
+      'AI-powered integrations and intelligent automation that reduce manual work and streamline workflows.',
     href: '/contact',
   },
   {
     index: '03',
     title: 'SEO & DIGITAL GROWTH',
     summary:
-      'Search engine optimization, Google Ads and conversion-focused digital strategies that help businesses improve visibility and attract customers.',
+      'SEO, Google Ads and conversion-focused strategies that improve visibility and attract customers.',
     href: '/contact',
   },
 ];

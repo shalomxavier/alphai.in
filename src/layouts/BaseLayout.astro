@@ -7,11 +7,13 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  hideFooter?: boolean;
 }
 
 const {
   title,
   description = 'ALPHAI — placeholder description. Final copy to come.',
+  hideFooter = false,
 } = Astro.props;
 
 const fullTitle = title === 'ALPHAI' ? 'ALPHAI' : `${title} — ALPHAI`;
@@ -52,7 +54,7 @@ const schema = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -78,7 +80,7 @@ const schema = {
       import '../scripts/particles';
     </script>
   </head>
-  <body id="top">
+  <body id="top" class="flex min-h-svh flex-col">
     <canvas id="field" class="particle-field" aria-hidden="true" transition:persist></canvas>
     <a
       href="#main"
@@ -87,9 +89,9 @@ const schema = {
       Skip to content
     </a>
     <Nav />
-    <main id="main">
+    <main id="main" class="flex flex-1 flex-col">
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>
