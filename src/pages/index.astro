@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceColumn from '../components/ServiceColumn.astro';
 import { services } from '../data/services';
 
-const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
+const words = 'Where Intelligence Becomes Action.'.split(' ');
 ---
 
 <BaseLayout
@@ -20,31 +20,35 @@ const letters = ['A', 'L', 'P', 'H', 'A', 'I'];
     <div
       class="shell flex flex-1 flex-col items-center justify-center pt-14 pb-4 text-center"
     >
-      <img
-        src="/alphai-logo.svg"
-        alt=""
-        width="1400"
-        height="688"
-        class="h-10 w-auto"
-        data-hero-meta
-      />
+      <div class="flex items-center gap-3" data-hero-meta>
+        <img
+          src="/alphai-logo.svg"
+          alt=""
+          width="1400"
+          height="688"
+          class="h-[0.8em] w-auto"
+        />
+        <span class="text-lg font-medium tracking-tightest md:text-xl"
+          >ALPHAI</span
+        >
+      </div>
       <h1
-        class="masthead mt-5"
-        aria-label="ALPHAI"
+        class="mt-8 max-w-4xl text-h1 font-medium leading-tight tracking-tightest md:mt-10"
+        aria-label="Where Intelligence Becomes Action."
         data-hero-wordmark
       >
         {
-          letters.map((letter) => (
-            <span class="mask" aria-hidden="true">
-              <span data-hero-letter>{letter}</span>
-            </span>
+          words.map((word, i) => (
+            <Fragment>
+              <span class="mask" aria-hidden="true">
+                <span data-hero-letter>{word}</span>
+              </span>
+              {i < words.length - 1 && ' '}
+            </Fragment>
           ))
         }
       </h1>
-      <p class="mt-5 w-full text-body-lg" data-hero-meta>
-        Where Intelligence Becomes Action.
-      </p>
-      <p class="mt-2 w-full max-w-lg text-muted" data-hero-meta>
+      <p class="mt-6 w-full max-w-xl text-muted" data-hero-meta>
         Intelligent software, AI and digital growth for modern businesses.
       </p>
     </div>

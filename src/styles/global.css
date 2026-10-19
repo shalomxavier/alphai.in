@@ -15,7 +15,6 @@
   --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
-  --text-masthead: clamp(2.5rem, min(12vw, 16svh), 11rem);
   --text-display: clamp(4rem, 12.5vw, 11rem);
   --text-h1: clamp(2.5rem, 6vw, 4.5rem);
   --text-h2: clamp(1.875rem, 4.5vw, 3.25rem);
@@ -105,25 +104,15 @@
     padding-inline: var(--spacing-gutter);
   }
 
-  /* Masthead — centered brand lockup; each letter sits in an overflow mask
-     for the staggered rise reveal */
-  .masthead {
-    display: flex;
-    justify-content: center;
-    font-size: var(--text-masthead);
-    font-weight: 500;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-  }
-
-  .masthead .mask {
+  /* Rise mask — child spans rise through the overflow clip for the
+     staggered reveal (hero headline words) */
+  .mask {
     display: inline-block;
     overflow: hidden;
     padding-top: 0.06em;
   }
 
-  .masthead .mask > span {
+  .mask > span {
     display: block;
     will-change: transform;
   }

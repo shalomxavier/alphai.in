@@ -44,6 +44,10 @@ const ALPHA_SKEW = 2.2;
 const ALPHA_STATIC_MIN = 0.1;
 const ALPHA_STATIC_MAX = 0.32;
 const ALPHA_BUCKETS = 4;
+// Sprite is drawn slightly larger than the logical size — a feathered
+// circle reads smaller than a solid square of equal side
+const SPRITE_SCALE = 1.4;
+const SPRITE_PX = 64;
 
 const RESIZE_DEBOUNCE_MS = 150;
 
@@ -91,6 +95,7 @@ interface Engine {
   resizeTimer: number;
   lastTime: number;
   color: string;
+  sprite: HTMLCanvasElement;
   tickFn: FrameRequestCallback;
 }
 
@@ -171,9 +176,9 @@ function buildBuffers(e: Engine) {
     e.alpha[i] =
       ALPHA_MIN +
       Math.pow(Math.random(), ALPHA_SKEW) * (ALPHA_MAX - ALPHA_MIN);
-    // Mostly 2–3px; ~28% larger 3–4px for depth
+    // Mostly ~3–5px; ~28% larger ~5–6.5px for depth (1.63× original sizing)
     e.size[i] =
-      Math.random() < 0.72 ? 2 + Math.random() : 3 + Math.random();
+      Math.random() < 0.72 ? 3.26 + Math.random() * 1.63 : 4.89 + Math.random() * 1.63;
     e.heading[i] = Math.random() * Math.PI * 2;
     e.turnAmp[i] = TURN_MIN + Math.random() * (TURN_MAX - TURN_MIN);
     e.turnPhase[i] = Math.random() * Math.PI * 2;
@@ -203,15 +208,48 @@ function buildBuffers(e: Engine) {
   }
 }
 
+/** Prerendered soft-sphere sprite — a radial gradient (bright core fading
+ *  to transparent) tinted to the particle color once at init. The RAF loop
+ *  only calls drawImage, so no objects are allocated per frame. */
+function buildSprite(color: string): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = c.height = SPRITE_PX;
+  const g = c.getContext('2d');
+  if (!g) return c;
+  const mid = SPRITE_PX / 2;
+  const grad = g.createRadialGradient(mid, mid, 0, mid, mid, mid);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.3, 'rgba(255,255,255,0.85)');
+  grad.addColorStop(0.6, 'rgba(255,255,255,0.3)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, SPRITE_PX, SPRITE_PX);
+  // tint the alpha shape to the palette color without parsing it
+  g.globalCompositeOperation = 'source-in';
+  g.fillStyle = color;
+  g.fillRect(0, 0, SPRITE_PX, SPRITE_PX);
+  return c;
+}
+
+/** Clear the entire bitmap in device pixels — covers any fractional
+ *  rounding sliver the dpr-scaled logical rect would leave at the
+ *  right/bottom edges. */
+function clearCanvas(e: Engine) {
+  const { ctx, canvas } = e;
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+}
+
 function drawStaticFrame(e: Engine) {
-  const { ctx, count } = e;
-  ctx.clearRect(0, 0, e.width, e.height);
-  ctx.fillStyle = e.color;
+  const { ctx, count, sprite } = e;
+  clearCanvas(e);
   const scale = (ALPHA_STATIC_MAX - ALPHA_STATIC_MIN) / (ALPHA_MAX - ALPHA_MIN);
   for (let i = 0; i < count; i++) {
     ctx.globalAlpha = ALPHA_STATIC_MIN + (e.alpha[i] - ALPHA_MIN) * scale;
-    const s = e.size[i];
-    ctx.fillRect(e.homeX[i] - s / 2, e.homeY[i] - s / 2, s, s);
+    const s = e.size[i] * SPRITE_SCALE;
+    ctx.drawImage(sprite, e.homeX[i] - s / 2, e.homeY[i] - s / 2, s, s);
   }
   ctx.globalAlpha = 1;
 }
@@ -310,9 +348,9 @@ function step(e: Engine, now: number) {
 }
 
 function render(e: Engine) {
-  const { ctx, count, size, x, y, bucketIdx, bucketCount, bucketAlpha } = e;
-  ctx.clearRect(0, 0, e.width, e.height);
-  ctx.fillStyle = e.color;
+  const { ctx, count, size, x, y, bucketIdx, bucketCount, bucketAlpha, sprite } =
+    e;
+  clearCanvas(e);
   for (let b = 0; b < ALPHA_BUCKETS; b++) {
     const n = bucketCount[b];
     if (n === 0) continue;
@@ -320,8 +358,8 @@ function render(e: Engine) {
     const base = b * count;
     for (let k = 0; k < n; k++) {
       const i = bucketIdx[base + k];
-      const s = size[i];
-      ctx.fillRect(x[i] - s / 2, y[i] - s / 2, s, s);
+      const s = size[i] * SPRITE_SCALE;
+      ctx.drawImage(sprite, x[i] - s / 2, y[i] - s / 2, s, s);
     }
   }
   ctx.globalAlpha = 1;
@@ -467,6 +505,7 @@ function init() {
     resizeTimer: 0,
     lastTime: performance.now(),
     color,
+    sprite: buildSprite(color),
     tickFn: () => {},
   };
 
