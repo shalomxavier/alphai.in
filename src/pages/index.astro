@@ -2,8 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceColumn from '../components/ServiceColumn.astro';
 import { services } from '../data/services';
-
-const words = 'Where Intelligence Becomes Action.'.split(' ');
 ---
 
 <BaseLayout
@@ -20,36 +18,31 @@ const words = 'Where Intelligence Becomes Action.'.split(' ');
     <div
       class="shell flex flex-1 flex-col items-center justify-center pt-14 pb-4 text-center"
     >
-      <div class="flex items-center gap-3" data-hero-meta>
-        <img
-          src="/alphai-logo.svg"
-          alt=""
-          width="1400"
-          height="688"
-          class="h-[0.8em] w-auto"
-        />
-        <span class="text-lg font-medium tracking-tightest md:text-xl"
-          >ALPHAI</span
-        >
-      </div>
       <h1
-        class="mt-8 max-w-4xl text-h1 font-medium leading-tight tracking-tightest md:mt-10"
-        aria-label="Where Intelligence Becomes Action."
+        class="flex w-full max-w-xl flex-col items-center md:max-w-2xl"
         data-hero-wordmark
       >
-        {
-          words.map((word, i) => (
-            <Fragment>
-              <span class="mask" aria-hidden="true">
-                <span data-hero-letter>{word}</span>
-              </span>
-              {i < words.length - 1 && ' '}
-            </Fragment>
-          ))
-        }
+        <span class="mask mt-6 md:mt-9">
+          <span
+            class="text-[2.85rem] font-medium tracking-tightest md:text-6xl"
+            data-hero-letter
+            >ALPHAI</span
+          >
+        </span>
+        <span class="mask mt-4 w-full md:mt-6">
+          <span data-hero-letter>
+            <img
+              src="/alphai-logo.svg"
+              alt=""
+              width="1400"
+              height="688"
+              class="mx-auto block h-auto w-[39.7%]"
+            />
+          </span>
+        </span>
       </h1>
-      <p class="mt-6 w-full max-w-xl text-muted" data-hero-meta>
-        Intelligent software, AI and digital growth for modern businesses.
+      <p class="mt-8 text-body-lg text-muted md:mt-10" data-hero-meta>
+        Where Intelligence Becomes Action.
       </p>
     </div>
   </section>
